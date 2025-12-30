@@ -5,6 +5,17 @@
 > Môi trường: cluster local (API server `127.0.0.1:41787`)
 
 ---
+```bash
+export CERT_DIR=/tmp/k8s-webhook-server/serving-certs
+mkdir -p "$CERT_DIR"
+
+OPENSSL_CONF=/dev/null openssl req -x509 -nodes -newkey rsa:2048 \
+  -keyout "$CERT_DIR/tls.key" \
+  -out "$CERT_DIR/tls.crt" \
+  -days 365 \
+  -subj "/CN=webhook-service.system.svc" \
+  -addext "subjectAltName=DNS:webhook-service.system.svc,DNS:webhook-service.system.svc.cluster.local,DNS:webhook-service.system,DNS:webhook-service"
+```
 
 ## 1) Triệu chứng / lỗi gặp phải
 
